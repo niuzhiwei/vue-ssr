@@ -1,5 +1,5 @@
 <template>
-  <header :class='$style.mainHeader'>
+  <header class='main-header'>
     <h1>Jtodo</h1>
   </header>
 </template>
@@ -7,7 +7,7 @@
 <script>
 export default {}
 </script>
-<style lang='stylus' module>
+<style lang='stylus'>
 .main-header {
   text-align: center;
 
