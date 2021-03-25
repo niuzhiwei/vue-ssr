@@ -3,8 +3,14 @@
     <div id="cover">
     </div>
     <Header></Header>
-    <todo></todo>
+    <!-- <todo></todo> -->
+    <router-link :to="{name:'app'}">app</router-link>
+    <router-link to="/login">login</router-link>
+    <transition name="fade">
+      <router-view></router-view>
+    </transition>
     <Footer></Footer>
+    <!-- <router-view name='a'></router-view> -->
   </div>
 </template>
 
@@ -12,10 +18,14 @@
 import Header from './layout/header.vue'
 import Footer from './layout/footer.jsx'
 import Todo from './views/todo/todo.vue'
+// import { mapState } from 'vuex'
 export default {
   components: { Header, Footer, Todo },
   data () {
     return {}
+  },
+  computed: {
+    // ...mapState(['count'])
   }
 }
 </script>

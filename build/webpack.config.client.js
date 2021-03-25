@@ -15,7 +15,9 @@ const defalutPlugins = [
       NODE_ENV: isDev ? '"development"' : '"production"'
     }
   }),
-  new HTMLPlugin()
+  new HTMLPlugin({
+    template: path.join(__dirname, 'template.html')
+  })
 ]
 
 const devServer = {
@@ -23,6 +25,9 @@ const devServer = {
   host: '0.0.0.0',
   overlay: {
     errors: true,
+  },
+  historyApiFallback: {
+    index: '/public/index.html' // 和base里面配置的publicPath相关，用history路由时需要配置
   },
   hot: true
 }

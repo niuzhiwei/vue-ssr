@@ -28,11 +28,27 @@ import Tabs from './tabs.vue'
 let id = 0
 export default {
   components: { Item, Tabs },
+  beforeRouteEnter (to, from, next) {
+    console.log('todo before enter')
+    next()
+  },
+  beforeRouteUpdate (to, from, next) {
+    console.log('todo update enter')
+    next()
+  },
+  beforeRouteLeave (to, from, next) {
+    console.log('todo leave enter')
+    next()
+  },
+  props: ['id'],
   data () {
     return {
       todos: [],
       filter: 'all'
     }
+  },
+  mounted () {
+    console.log(this.id)
   },
   computed: {
     filteredTodos () {
