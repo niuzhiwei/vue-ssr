@@ -28,6 +28,9 @@ const devServer = {
   overlay: {
     errors: true,
   },
+  headers: {
+    'Access-Control-Allow-Origin': '*'
+  },
   historyApiFallback: {
     index: '/public/index.html' // 和base里面配置的publicPath相关，用history路由时需要配置
   },
@@ -73,7 +76,7 @@ if (isDev) {
     },
     output: {
       filename: '[name].[chunkhash:8].js',
-      publicPath:'/public/'
+      publicPath: '/public/'
     },
     module: {
       rules: [{

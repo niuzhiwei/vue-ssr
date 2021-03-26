@@ -1,5 +1,19 @@
 <template>
   <section class="real-app">
+    <div class="tab-container">
+      <tabs
+        :value="filter"
+        @change="handleChangeTab"
+      >
+        <tab
+          v-for="tab in states"
+          :key=tab
+          :label=tab
+          :index=tab
+        >
+        </tab>
+      </tabs>
+    </div>
     <input
       type="text"
       class="add-input"
@@ -13,24 +27,23 @@
       :todo='todo'
       @del='deleteTodo'
     ></Item>
-    <Tabs
+    <helper
       :filter="filter"
       :todos='todos'
-      @toggle='toggleFilter'
       @clearAllCompleted='clearAllCompleted'
-    ></Tabs>
+    ></helper>
   </section>
 </template>
 
 <script>
 import Item from './item.vue'
-import Tabs from './tabs.vue'
+import Helper from './helper.vue'
 let id = 0
 export default {
   metaInfo: {
     title: "Niuniu's Todo"
   },
-  components: { Item, Tabs },
+  components: { Item, Helper },
   beforeRouteEnter (to, from, next) {
     console.log('todo before enter')
     next()
@@ -47,12 +60,11 @@ export default {
   data () {
     return {
       todos: [],
-      filter: 'all'
+      filter: 'all',
+      states: ['all', 'active', 'completed']
     }
   },
-  mounted () {
-    console.log(this.id)
-  },
+  mounted () {},
   computed: {
     filteredTodos () {
       if (this.filter === 'all') {
@@ -64,7 +76,6 @@ export default {
   },
   methods: {
     addTodo (e) {
-      console.log(e)
       this.todos.unshift({
         id: id++,
         content: e.target.value.trim(),
@@ -78,11 +89,11 @@ export default {
         1
       )
     },
-    toggleFilter (state) {
-      this.filter = state
-    },
     clearAllCompleted () {
       this.todos = this.todos.filter((todo) => !todo.completed)
+    },
+    handleChangeTab (value) {
+      this.filter = value
     }
   }
 }
@@ -113,5 +124,10 @@ export default {
   padding: 16px 16px 16px 60px;
   border: none;
   box-shadow: inset 0 -2px 1px rgba(0, 0, 0, 0.03);
+}
+
+.tab-container {
+  background-color: #fff;
+  padding: 0 15px;
 }
 </style>

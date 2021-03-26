@@ -1,36 +1,58 @@
 <template>
-  <div class="notification">
-    <span class="content">{{content}}</span>
-    <a
-      class="btn"
-      @click="handleClose"
-    >{{btn}}</a>
-  </div>
+  <transition name="fade" @after-leave="afterLeave" @after-enter="afterEnter">
+    <div
+      class="notification"
+      :style="style"
+      v-show="visible"
+      @mouseenter="clearTimer"
+      @mouseleave="createTimer"
+    >
+      <span class="content">{{content}}</span>
+      <a
+        class="btn"
+        @click="handleClose"
+      >{{btn}}</a>
+    </div>
+  </transition>
 </template>
 
 <script>
 export default {
-  name: "Notification",
+  name: 'Notification',
   props: {
     content: {
       type: String,
-      required: true,
+      required: true
     },
     btn: {
       type: String,
-      default: "关闭",
-    },
+      default: '关闭'
+    }
   },
-  data() {
-    return {};
+  data () {
+    return {
+      visible: true
+    }
+  },
+  computed: {
+    style () {
+      return {}
+    }
   },
   methods: {
-    handleClose(e) {
-      e.preventDefault();
-      this.$emit("close");
+    handleClose (e) {
+      e.preventDefault()
+      this.$emit('close')
     },
-  },
-};
+    afterLeave () {
+      this.$emit('closed')
+    },
+    afterEnter () {
+    },
+    clearTimer () {},
+    createTimer () {}
+  }
+}
 </script>
 <style lang='stylus' scoped>
 .notification {
