@@ -27,6 +27,9 @@ import Item from './item.vue'
 import Tabs from './tabs.vue'
 let id = 0
 export default {
+  metaInfo: {
+    title: "Niuniu's Todo"
+  },
   components: { Item, Tabs },
   beforeRouteEnter (to, from, next) {
     console.log('todo before enter')
@@ -61,6 +64,7 @@ export default {
   },
   methods: {
     addTodo (e) {
+      console.log(e)
       this.todos.unshift({
         id: id++,
         content: e.target.value.trim(),

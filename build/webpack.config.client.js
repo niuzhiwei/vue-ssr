@@ -6,6 +6,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 //合并webpack config
 const merge = require('webpack-merge')
 const baseConfig = require('./webpack.config.base')
+const VueClientPlugin = require('vue-server-renderer/client-plugin')
 
 const isDev = process.env.NODE_ENV === 'development'
 
@@ -17,7 +18,8 @@ const defalutPlugins = [
   }),
   new HTMLPlugin({
     template: path.join(__dirname, 'template.html')
-  })
+  }),
+  new VueClientPlugin()
 ]
 
 const devServer = {
@@ -67,10 +69,11 @@ if (isDev) {
 } else {
   config = merge(baseConfig, {
     entry: {
-      app: path.join(__dirname, '../client/index.js'),
+      app: path.join(__dirname, '../client/client-entry.js'),
     },
     output: {
-      filename: '[name].[chunkhash:8].js'
+      filename: '[name].[chunkhash:8].js',
+      publicPath:'/public/'
     },
     module: {
       rules: [{

@@ -1,6 +1,7 @@
 const path = require('path')
 const webpack = require('webpack')
-const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const ExtractPlugin = require('extract-text-webpack-plugin')
+// const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 //合并webpack config
 const merge = require('webpack-merge')
 const baseConfig = require('./webpack.config.base')
@@ -21,24 +22,26 @@ config = merge(baseConfig, {
   module: {
     rules: [{
       test: /\.styl/,
-      use: [
-        MiniCssExtractPlugin.loader,
-        'css-loader',
-        {
-          loader: 'postcss-loader',
-          options: {
-            sourceMap: true,
-          }
-        },
-        'stylus-loader'
-      ],
+      use: ExtractPlugin.extract({
+        fallback: 'vue-style-loader',
+        use: [
+          'css-loader',
+          {
+            loader: 'postcss-loader',
+            options: {
+              sourceMap: true
+            }
+          },
+          'stylus-loader'
+        ]
+      })
     }]
   },
   plugins: [
-    new MiniCssExtractPlugin({
-      chunkFilename: 'styles.[contenthash:8].css'
+    new ExtractPlugin({
+      filename: `[name]_[md5:contenthash:hex:8].css`,
     }),
-    new webpack.defalutPlugins({
+    new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development'),
       'process.env.VUE_ENV': '"server"'
     }),
