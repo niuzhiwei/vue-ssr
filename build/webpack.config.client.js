@@ -34,6 +34,10 @@ const devServer = {
   historyApiFallback: {
     index: '/public/index.html' // 和base里面配置的publicPath相关，用history路由时需要配置
   },
+  proxy: {
+    '/api': 'http://127.0.0.1:3333',
+    '/user': 'http://127.0.0.1:3333'
+  },
   hot: true
 }
 

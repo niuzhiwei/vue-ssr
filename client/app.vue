@@ -8,8 +8,6 @@
     >
       <router-view />
     </transition>
-    <button @click="notify">点我</button>
-    <!-- <notification content="test notify"></notification> -->
     <Footer></Footer>
   </div>
 </template>
@@ -27,14 +25,7 @@ export default {
     Footer
   },
   mounted () {},
-  methods: {
-    notify () {
-      this.$notfiy({
-        content: 'test123',
-        btn: 'close'
-      })
-    }
-  },
+  methods: {},
   computed: {}
 }
 </script>

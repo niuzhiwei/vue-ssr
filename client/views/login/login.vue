@@ -10,6 +10,7 @@
         v-show="errorMsg"
       >{{errorMsg}}</span>
     </h1>
+
     <input
       type="text"
       class="login-input"
@@ -19,7 +20,7 @@
     <input
       type="password"
       class="login-input"
-      placeholder="Password"
+      placeholder="password"
       autocomplete="new-password"
       v-model="password"
     >
@@ -31,7 +32,7 @@
 </template>
 
 <script>
-// import { mapActions } from 'vuex'
+import { mapActions } from 'vuex'
 export default {
   metaInfo: {
     title: 'Login Page'
@@ -44,17 +45,15 @@ export default {
     }
   },
   methods: {
-    // ...mapActions(['login']),
+    ...mapActions(['login']),
     doSubmit (e) {
       e.preventDefault()
       if (this.validate()) {
-        // 调用接口
-        this.login({
-          username: this.username,
-          password: this.password
-        }).then(() => {
-          this.$router.replace('/app')
-        })
+        this.login({ username: this.username, password: this.password }).then(
+          () => {
+            this.$router.replace('/app')
+          }
+        )
       }
     },
     validate () {
@@ -72,8 +71,7 @@ export default {
   }
 }
 </script>
-
-<style lang="stylus" scoped>
+<style lang='stylus' scoped>
 .login-form {
   display: flex;
   flex-direction: column;
@@ -91,7 +89,6 @@ export default {
 
 .login-input {
   appearance: none;
-  padding: 0 10px;
   line-height: 30px;
   margin-bottom: 20px;
   border: 1px solid #aaa;

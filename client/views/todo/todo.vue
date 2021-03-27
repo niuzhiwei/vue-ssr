@@ -19,13 +19,14 @@
       class="add-input"
       autofocus='autofocus'
       placeholder="接下去要做什么呢"
-      @keyup.enter="addTodo"
+      @keyup.enter="handleAdd"
     >
     <Item
       v-for="todo in filteredTodos"
       :key='todo.id'
       :todo='todo'
       @del='deleteTodo'
+      @toggle="toggleTodoState"
     ></Item>
     <helper
       :filter="filter"
@@ -36,9 +37,10 @@
 </template>
 
 <script>
+import { mapState, mapActions } from 'vuex'
 import Item from './item.vue'
 import Helper from './helper.vue'
-let id = 0
+
 export default {
   metaInfo: {
     title: "Niuniu's Todo"
@@ -59,13 +61,15 @@ export default {
   props: ['id'],
   data () {
     return {
-      todos: [],
       filter: 'all',
       states: ['all', 'active', 'completed']
     }
   },
-  mounted () {},
+  mounted () {
+    this.fetchTodos()
+  },
   computed: {
+    ...mapState(['todos']),
     filteredTodos () {
       if (this.filter === 'all') {
         return this.todos
@@ -75,22 +79,33 @@ export default {
     }
   },
   methods: {
-    addTodo (e) {
-      this.todos.unshift({
-        id: id++,
-        content: e.target.value.trim(),
-        completed: false
-      })
+    ...mapActions([
+      'fetchTodos',
+      'createTodo',
+      'deleteTodo',
+      'updateTodo',
+      'deleteAllCompleted'
+    ]),
+    handleAdd (e) {
+      const content = e.target.value.trim()
+      if (!content) {
+        this.$notify({
+          content: '必须输入要做的内容'
+        })
+        return
+      }
+      this.createTodo({ content, completed: false })
       e.target.value = ''
     },
-    deleteTodo (id) {
-      this.todos.splice(
-        this.todos.findIndex((todo) => todo.id === id),
-        1
-      )
+    toggleTodoState (todo) {
+      this.updateTodo({
+        id: todo.id,
+        todo: Object.assign({}, todo, { completed: !todo.completed })
+      })
     },
+
     clearAllCompleted () {
-      this.todos = this.todos.filter((todo) => !todo.completed)
+      this.deleteAllCompleted()
     },
     handleChangeTab (value) {
       this.filter = value

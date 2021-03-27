@@ -3,7 +3,8 @@
     <input
       type="checkbox"
       class="toggle"
-      v-model="todo.completed"
+      :checked="todo.completed"
+      @click="hanldeToggle"
     >
     <label>{{todo.content}}</label>
     <button
@@ -27,6 +28,10 @@ export default {
   methods: {
     deleteTodo () {
       this.$emit('del', this.todo.id)
+    },
+    hanldeToggle (e) {
+      e.preventDefault()
+      this.$emit('toggle', this.todo)
     }
   }
 }

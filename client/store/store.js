@@ -1,13 +1,16 @@
 import Vuex from 'vuex'
 import state from './state/state'
 import mutations from './mutations/mutations'
+import actions from './actions/actions'
 
 const isDev = process.env.NODE_ENV === 'development'
+
 export default () => {
   const store = new Vuex.Store({
     strict: isDev,
     state,
-    mutations
+    mutations,
+    actions
   })
 
   // vuex的hot replace
